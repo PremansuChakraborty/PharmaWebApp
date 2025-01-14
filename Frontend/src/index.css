@@ -1,0 +1,25 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes rotateBorder {
+    0% {
+      border-image-source: linear-gradient(45deg, #ff5733, #4caf50, #1e90ff, #ff9800);
+    }
+    25% {
+      border-image-source: linear-gradient(135deg, #ff5733, #4caf50, #1e90ff, #ff9800);
+    }
+    50% {
+      border-image-source: linear-gradient(225deg, #ff5733, #4caf50, #1e90ff, #ff9800);
+    }
+    75% {
+      border-image-source: linear-gradient(315deg, #ff5733, #4caf50, #1e90ff, #ff9800);
+    }
+    100% {
+      border-image-source: linear-gradient(45deg, #ff5733, #4caf50, #1e90ff, #ff9800);
+    }
+  }
+
+
+  
