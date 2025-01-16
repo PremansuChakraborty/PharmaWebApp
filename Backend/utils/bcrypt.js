@@ -4,7 +4,7 @@ const hashPassword=(password)=>{
     return hashPassword;
 }
 const comparePassword=(password,encrytedPassword)=>{
-    //to hash
+    
     const matched=bcrypt.compareSync(password,encrytedPassword)
     return matched
 }
