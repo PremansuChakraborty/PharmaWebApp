@@ -26,7 +26,7 @@ const responseSchema = new mongoose.Schema({
 const Response = mongoose.model("Response", responseSchema);
 
 // Initialize Gemini API
-const genAI = new GoogleGenerativeAI("AIzaSyA0WrjwGqK2AXwbLLGQIEQxcPw8cc-kkeU"); // Replace with your Gemini API key
+const genAI = new GoogleGenerativeAI("Put your key here"); // Replace with your Gemini API key
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // Routes
