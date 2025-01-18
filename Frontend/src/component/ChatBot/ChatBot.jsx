@@ -1,127 +1,312 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Paper from "@mui/material/Paper";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  FaCommentDots,
+  FaArrowAltCircleUp,
+  FaWindowClose,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  Paper,
+} from "@mui/material";
+import axios from "axios";
 import Draggable from "react-draggable";
-import { FaWindowClose, FaArrowAltCircleUp, FaCommentDots } from "react-icons/fa";
-import Fab from "@mui/material/Fab";
-
 
 function PaperComponent(props) {
   const nodeRef = React.useRef(null);
   return (
-    <Draggable
-      nodeRef={nodeRef}
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-      className='bg-red-900'
-    >
-      <Paper {...props} ref={nodeRef} className=" w-full md:h-1/2 h-full  rounded-full flex-col" />
+    <Draggable nodeRef={nodeRef} handle="#draggable-dialog-title">
+      <Paper
+        {...props}
+        ref={nodeRef}
+        style={{
+          borderRadius: "12px",
+          boxShadow: "0px 4px 12px rgba(0,0,0,0.2)",
+        }}
+      />
     </Draggable>
   );
 }
 
 export default function ChatBot() {
-  const [open, setOpen] = React.useState(false);
-  const [messages, setMessages] = React.useState([]);
-  const [input, setInput] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [showQuickReplies, setShowQuickReplies] = useState(false);
+  const chatContentRef = useRef(null); // Reference to chat content for scrolling
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
+  const handleClickOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setMessages([]);
-    setInput('');
-  };
-
-  const handleInputMessage = (message) => {
-    setMessages((messages) => [...messages, message]);
     setInput("");
   };
 
+  const handleSendMessage = async (message) => {
+    if (!message.trim()) return;
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { type: "user", text: message },
+    ]);
+    setInput("");
+    setShowQuickReplies(false); // Close quick replies dropdown
+
+    try {
+      const response = await axios.post("http://localhost:5000/chat", {
+        question: message,
+      });
+      const botReply =
+        response.data.answer || "Sorry, I couldn't understand that.";
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { type: "bot", text: botReply },
+      ]);
+    } catch (error) {
+      console.error("Error fetching chatbot response:", error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { type: "bot", text: "There was an error. Please try again later." },
+      ]);
+    }
+  };
+
+  useEffect(() => {
+    // Scroll to the bottom of the chat content whenever messages update
+    if (chatContentRef.current) {
+      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  const predefinedResponses = [
+    "How can I book a doctor consultation?",
+    "How can I track my order?",
+    "How can I cancel my order?",
+    "What medicines are available for cold?",
+    "How can I speak to customer support?",
+    "What are the payment methods available?",
+  ];
+
   return (
-    <React.Fragment>
-              <Paper
-          sx={{
-            position: "fixed",
-            bottom: 20,
-            right: 20,
-            borderRadius: "100%",
+    <>
+      {/* Floating Chat Button */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: 20,
+          right: 20,
+          zIndex: 1000,
+        }}
+      >
+        <Button
+          onClick={handleClickOpen}
+          style={{
+            backgroundColor: "#4CAF50",
+            color: "white",
+            borderRadius: "50%",
+            width: "60px",
+            height: "60px",
+            boxShadow: "0px 4px 8px rgba(0,0,0,0.3)",
           }}
         >
-          <Fab color="primary" onClick={()=>handleClickOpen()}>
-          <FaCommentDots style={{ color: "whitesmoke" }} />
-          </Fab>
-        </Paper>
+          <FaCommentDots size={30} />
+        </Button>
+      </div>
+
+      {/* Chat Dialog */}
       <Dialog
         open={open}
         onClose={handleClose}
+        fullWidth
+        maxWidth="sm"
         PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title"
-        className="w-full sm:w-1/2 md:w-1/3 mx-auto relative"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          margin: 0,
+        }}
       >
-        {/* Close Button in Upper Right Corner */}
-        <div className="absolute top-2 right-2">
-          <button
-            onClick={handleClose}
-            className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600 focus:outline-none"
-          >
-            <FaWindowClose style={{ fontSize: "12px" }} />
-          </button>
-        </div>
-
-        <DialogTitle
-          className="text-xl font-bold cursor-move bg-slate-400 h-1/6"
-          id="draggable-dialog-title"
+        <div
+          style={{ display: "flex", flexDirection: "column", height: "70vh" }}
         >
-          ChatBot
-        </DialogTitle>
-        <DialogContent className="p-6 h-4/6">
-          <DialogContentText className="p-3 space-y-2">
-            <div>
-              {messages.map((message, ind) => {
-                return (
-                  <div
-                    className="bg-blue-300 w-fit my-2 rounded-full p-3 font-bold"
-                    key={ind}
-                  >
-                    {message}
-                  </div>
-                );
-              })}
+          {/* Close Button */}
+          <div
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            <button
+              onClick={handleClose}
+              style={{
+                border: "none",
+                backgroundColor: "transparent",
+                color: "red",
+                cursor: "pointer",
+              }}
+            >
+              <FaWindowClose size={20} />
+            </button>
+          </div>
+
+          {/* Chat Header */}
+          <DialogTitle
+            id="draggable-dialog-title"
+            style={{
+              cursor: "move",
+              backgroundColor: "#4CAF50",
+              color: "white",
+              textAlign: "center",
+              fontSize: "1.25rem",
+              padding: "12px",
+            }}
+          >
+            Welcome to Pharma ChatBot
+          </DialogTitle>
+
+          {/* Chat Content */}
+          <DialogContent
+            ref={chatContentRef} // Attach ref to chat content for scrolling
+            style={{
+              flex: 1,
+              overflowY: "auto",
+              backgroundColor: "#f9f9f9",
+              padding: "16px",
+            }}
+          >
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                style={{
+                  marginBottom: "10px",
+                  textAlign: message.type === "user" ? "right" : "left",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    padding: "8px 12px",
+                    borderRadius: "12px",
+                    backgroundColor:
+                      message.type === "user" ? "#4CAF50" : "#ddd",
+                    color: message.type === "user" ? "white" : "black",
+                    maxWidth: "80%",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  {message.text}
+                </span>
+              </div>
+            ))}
+          </DialogContent>
+
+          {/* Predefined Quick Replies Dropdown */}
+          <DialogActions
+            style={{
+              padding: "8px 16px",
+              borderTop: "1px solid #ddd",
+              backgroundColor: "#f9f9f9",
+              flexDirection: "column",
+            }}
+          >
+            <div style={{ width: "100%", textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                onClick={() => setShowQuickReplies((prev) => !prev)}
+                style={{
+                  width: "100%",
+                  borderColor: "#4CAF50",
+                  color: "#4CAF50",
+                  marginBottom: "8px",
+                }}
+              >
+                {showQuickReplies ? (
+                  <>
+                    Hide Quick Messages{" "}
+                    <FaChevronUp style={{ marginLeft: "8px" }} />
+                  </>
+                ) : (
+                  <>
+                    Show Quick Messages{" "}
+                    <FaChevronDown style={{ marginLeft: "8px" }} />
+                  </>
+                )}
+              </Button>
             </div>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <div className="flex flex-col sm:flex-row items-center p-1 bg-red-500 rounded-lg w-full">
-            {/* Input Field and Button on Single Line */}
-            <form className="flex w-full items-center space-x-2 h-1/6">
-              <input
-                type="text"
-                placeholder="Enter query"
+            {showQuickReplies && (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  justifyContent: "center",
+                }}
+              >
+                {predefinedResponses.map((response, index) => (
+                  <Button
+                    key={index}
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleSendMessage(response)}
+                    style={{
+                      margin: "4px",
+                      borderColor: "#4CAF50",
+                      color: "#4CAF50",
+                    }}
+                  >
+                    {response}
+                  </Button>
+                ))}
+              </div>
+            )}
+          </DialogActions>
+
+          {/* Input Section */}
+          <DialogActions
+            style={{
+              padding: "8px 16px",
+              borderTop: "1px solid #ddd",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSendMessage(input);
+              }}
+              style={{ display: "flex", width: "100%" }}
+            >
+              <TextField
+                fullWidth
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-grow p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Type a message..."
+                variant="outlined"
+                size="small"
+                style={{ marginRight: "10px" }}
               />
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleInputMessage(input);
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  minWidth: "48px",
                 }}
-                className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none"
               >
-                <FaArrowAltCircleUp style={{ fontSize: "18px" }} />
-              </button>
+                <FaArrowAltCircleUp />
+              </Button>
             </form>
-          </div>
-        </DialogActions>
+          </DialogActions>
+        </div>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
