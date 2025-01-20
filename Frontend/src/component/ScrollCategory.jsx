@@ -1,54 +1,3 @@
-// import * as React from 'react';
-// import Tabs from '@mui/material/Tabs';
-// import Tab from '@mui/material/Tab';
-// import Box from '@mui/material/Box';
-
-// export default function ScrollCategory() {
-//   const [value, setValue] = React.useState(0);
-
-//   const handleChange = (event, newValue) => {
-//     setValue(newValue);
-//   };
-
-//   return (
-//     <Box sx={{ bgcolor: 'background.paper', boxShadow: 10 }}>
-
-//       <Tabs
-//         value={value}
-//         onChange={handleChange}
-//         variant="scrollable"
-//         scrollButtons={false}
-//         aria-label="scrollable prevent tabs example"
-//       >
-//         <Tab label="Item All" />
-//         <Tab label="Item Two" />
-//         <Tab label="Item Three" />
-//         <Tab label="Item Four" />
-//         <Tab label="Item Five" />
-//         <Tab label="Item Six" />
-//         <Tab label="Item Seven" />
-//         <Tab label="Item Two" />
-//         <Tab label="Item Three" />
-//         <Tab label="Item Four" />
-//         <Tab label="Item Five" />
-//         <Tab label="Item Six" />
-//         <Tab label="Item Seven" />
-//         <Tab label="Item Two" />
-//         <Tab label="Item Three" />
-//         <Tab label="Item Four" />
-//         <Tab label="Item Five" />
-//         <Tab label="Item Six" />
-//         <Tab label="Item Seven" />
-//         <Tab label="Item Two" />
-//         <Tab label="Item Three" />
-//         <Tab label="Item Four" />
-//         <Tab label="Item Five" />
-//         <Tab label="Item Six" />
-//         <Tab label="Item Seven" />
-//       </Tabs>
-//     </Box>
-//   );
-// }
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -57,7 +6,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Carousel } from './Carousel'
 import Medicines from './Medicines';
-import Ambulance from './Ambulence';
+import Ambulance from './ambulance';
 import Emergency from './Emergency';
 import Doctors from './Doctors';
 export default function ScrollCategory() {
