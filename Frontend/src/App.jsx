@@ -13,6 +13,10 @@ import { Login } from './Pages/Login'
 import Footer from './component/footer'
 import Wallet from './Pages/Wallet'
 import Orders from './Pages/Orders'
+import MedicineDetails from './Pages/medicinedetails'
+import DoctorDetails from './Pages/DoctorDetails'
+import AmbulanceDetails from './Pages/AmbulanceDetails'
+
 
 function App() {
   return (
@@ -32,6 +36,9 @@ function App() {
           <Route path="/wallet" element={<Wallet/>} />
           <Route path='/profile' element={<Profile/>}/>
           <Route path="/offers" element={<Offers/>} />
+          <Route path="/medicine_details/:id" element={<MedicineDetails/>} />
+          <Route path="/doctor_details/:id" element={<DoctorDetails/>} />
+          <Route path="/ambulance_details/:id" element={<AmbulanceDetails/>} />
       </Routes>
           <Footer/>
       </BrowserRouter>

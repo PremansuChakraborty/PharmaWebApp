@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Loader from './Loader';
+import { useNavigate } from 'react-router-dom';
 const Medicines= () => {
   const [array, setArray] = useState([]);
+  const navigate = useNavigate();
+  //handle click
+  const handleClick=(id)=>{
+    //  console.log(id);
+     navigate(`/medicine_details/${id}`)
+  }
   
   // Fetch products when the component mounts
   useEffect(() => {
@@ -23,15 +30,35 @@ const Medicines= () => {
         {array.length === 0 ? (
           <Loader/>
         ) : (
-          array.map(product => (
-            <div key={product.id} className="w-64 p-4 bg-white rounded-lg">
-            <div className="h-6 bg-gray-300 rounded w-3/4 mb-2 object-cover"><h2>{product.name}</h2></div>
-            <div className="h-40 bg-gray-300 rounded-md mb-4">
-  <img src={product.imageLink} alt={product.title} className="w-full h-full object-cover" />
-</div>
+          array.map(medicine => (
+            <div
+                  key={medicine._id}
+                  className="w-64 p-4 bg-white rounded-lg shadow-lg"
+                  onClick={()=>handleClick(medicine._id)}
+                >
+                  {/* Doctor's Name */}
+                  <div className="mb-2">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {medicine.name}
+                    </h2>
+                  </div>
 
-            <div className="h-6 bg-gray-300 rounded w-1/2"><p>₹{Math.round(product.price*80)}</p></div>
-            </div>
+                  {/* Doctor's Image */}
+                  <div className="h-40 bg-gray-300 rounded-md overflow-hidden mb-4">
+                    <img
+                      src={medicine.imageLink} // Fallback for missing image
+                      alt={medicine.title} // Fallback for missing title
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Specialization */}
+                  <div>
+                    <p className="text-sm text-gray-600">
+                    ₹{medicine.price*8}
+                    </p>
+                  </div>
+                </div>
           ))
         )}
       </div>

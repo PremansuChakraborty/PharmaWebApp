@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Loader from "./Loader";
-
+import { useNavigate } from 'react-router-dom';
 const Emergency = () => {
   const [array, setArray] = useState([]);
+  const navigate= useNavigate()
+  const handleClick=(id)=>{
+    //  console.log(id);
+     navigate(`/doctor_details/${id}`)
+  }
 
   // Fetch products when the component mounts
   useEffect(() => {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/doctor/allDoctors"
+          "http://localhost:8000/api/v1/doctor/allDoctor"
         );
         const products = await response.json();
         setArray(products?.data); // Update state with the fetched products
@@ -36,6 +41,7 @@ const Emergency = () => {
                 <div
                   key={doctor._id}
                   className="w-64 p-4 bg-white rounded-lg shadow-lg"
+                  onClick={()=>handleClick(doctor._id)}
                 >
                   {/* Doctor's Name */}
                   <div className="mb-2">

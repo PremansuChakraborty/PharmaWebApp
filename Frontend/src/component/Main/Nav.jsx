@@ -140,19 +140,19 @@ const Navbar = ({ UserDetails }) => {
                 />
                 Profile
               </Link>
-              <Link to="/mycart">
+              <Link to="/orders">
                 <FaShoppingCart
                   className="text-xl text-gray-800 cursor-pointer hover:text-white pr-4 inline"
                   size={40}
                 />
-                My Cart
+                Order Details
               </Link>
-              <Link to="/mywishlist">
+              <Link to="/wallet">
                 <FaWallet
                   className="text-xl text-gray-800 cursor-pointer hover:text-white pr-4 inline"
                   size={40}
                 />
-                My Wishlist
+                My Wallet
               </Link>
             </>
           ) : (

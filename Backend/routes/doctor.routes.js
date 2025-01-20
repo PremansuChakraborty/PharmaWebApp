@@ -5,6 +5,6 @@ import { addDoctor, doctorCollection, getDoctor } from '../controllers/doctor.co
 const router=Router();
  router.post('/addDoctor',addDoctor)
  router.post('/getDoctor',getDoctor)
- router.get('/allDoctors', doctorCollection)
+ router.get('/allDoctor', doctorCollection)
 
  export default router
