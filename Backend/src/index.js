@@ -7,6 +7,7 @@ import chatbotRouter from '../routes/chatbot.routes.js'
 import ambulanceRouter from "../routes/ambulance.routes.js"
 import  {configDotenv} from 'dotenv';
 import connectDB from '../db.js';
+import path from 'path'
 const app=express()
 configDotenv()
 app.use(cors({

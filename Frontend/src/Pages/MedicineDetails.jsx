@@ -30,8 +30,8 @@ const MedicineDetails = () => {
       <h1 className="text-2xl font-bold mb-2">{medicine.name}</h1>
       <img src={medicine.imageLink} alt={medicine.name} className="w-full h-full object-cover"  />
       <p className="mb-4">{medicine.description}</p>
-      <p className="text-lg font-semibold">Price: ₹{medicine.price}</p>
-      <p className="text-lg font-semibold">Rating: {medicine.rating} / 5</p>
+      <p className="text-lg font-semibold">Price: ₹{medicine.price*8}</p>
+      <p className="text-lg font-semibold">Rating: {medicine.rating}⭐ / 5⭐</p>
       <p className="text-lg font-semibold">Stock: {medicine.stock}</p>
     </div>
   );
