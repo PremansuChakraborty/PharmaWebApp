@@ -8,7 +8,7 @@ const Doctors= () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('https://medical-api-m6ni.onrender.com/doctors');
+        const response = await fetch('http://localhost:8000/api/v1/doctor/allDoctors');
         const products = await response.json();
         setArray(products?.data); // Update state with the fetched products
       } catch (error) {

@@ -59,7 +59,7 @@ export default function ChatBot() {
     setShowQuickReplies(false); // Close quick replies dropdown
 
     try {
-      const response = await axios.post("http://localhost:5000/chat", {
+      const response = await axios.post("http://localhost:8000/api/v1/chatbot/response", {
         question: message,
       });
       const botReply =

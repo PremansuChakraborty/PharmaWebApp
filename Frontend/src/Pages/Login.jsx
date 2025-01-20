@@ -10,7 +10,7 @@ const Login = () => {
   const {setUserDetails } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const apiUrl = 'http://localhost:8000';
+  const apiUrl = 'http://localhost:8000/api/v1/user';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +25,8 @@ const Login = () => {
 
         if (response.status === 200) {
           console.log(response.data.message);
-          setUserDetails({ name: response.data.user.name, email: response.data.user.email });
-          localStorage.setItem("auth",JSON.stringify({name:response.data.user.name,email:response.data.user.email}))
+          setUserDetails({ name: response.data.data.user.name, email: response.data.data.user.email });
+          localStorage.setItem("auth",JSON.stringify({name:response.data.data.user.name,email:response.data.data.user.email}))
 
           navigate('/');
         }

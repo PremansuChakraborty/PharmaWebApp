@@ -18,22 +18,22 @@ function Register() {
 
     if (name.length > 0 && password.length > 0) {
       try {
-        const response = await axios.post('http://localhost:8000/signup', {
+        const response = await axios.post('http://localhost:8000/api/v1/user/signup', {
           name: name,
           email: email,
           password: password
         });
 
         console.log(response.data);
-        const response2 = await axios.post(`http://localhost:8000/login`, {
+        const response2 = await axios.post(`http://localhost:8000/api/v1/user/login`, {
           email:email,
           password: password
         });
 
         if (response2.status === 200) {
-          console.log(response2.data.message);
-          setUserDetails({ name: response2.data.user.name, email: response2.data.user.email });
-          localStorage.setItem("auth",JSON.stringify({name:response2.data.user.name,email:response2.data.user.email}))
+          console.log("xxx",response2.data.data.user.name,response2.data.data.user.email);
+          setUserDetails({ name: response2.data.data.user.name, email: response2.data.data.user.email });
+          localStorage.setItem("auth",JSON.stringify({name:response2.data.data.user.name,email:response2.data.data.user.email}))
 
           navigate('/');
         }// Redirect to login page after successful registration

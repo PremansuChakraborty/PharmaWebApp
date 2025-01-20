@@ -1,11 +1,10 @@
-const bcrypt=require("bcrypt")
-const hashPassword=(password)=>{
+import bcrypt from 'bcrypt'
+export const hashPassword=(password)=>{
     const hashPassword=bcrypt.hashSync(password,10);
     return hashPassword;
 }
-const comparePassword=(password,encrytedPassword)=>{
+export const comparePassword=(password,encrytedPassword)=>{
     
     const matched=bcrypt.compareSync(password,encrytedPassword)
     return matched
 }
-module.exports={hashPassword,comparePassword}
