@@ -14,7 +14,7 @@ app.use(cors({
   origin: "*",
   credentials:true
 }));
-// app.use(express.static(path.join(path.resolve(),"../Frontend/dist")))
+app.use(express.static(path.join(path.resolve(),"../Frontend/dist")))
 app.use(express.json());
 const port=process.env.PORT
 app.use('/api/v1/user',userRouter)
