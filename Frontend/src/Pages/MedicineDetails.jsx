@@ -1,10 +1,12 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import UserContext from '../Context/User/UserContext';
 
 const MedicineDetails = () => {
   const { id } = useParams();
   const [medicine, setMedicine] = useState(null);
+  const {UserDetails}=useContext(UserContext)
 
   useEffect(() => {
     const fetchDetails = async (id) => {
@@ -21,6 +23,17 @@ const MedicineDetails = () => {
     }
   }, [id]);
 
+  const addToCart=async(_id)=>{
+      try{
+        console.log(UserDetails.email+" "+_id);
+        await axios.post('http://localhost:8000/api/v1/user/addToCart',{email: UserDetails.email,id:_id});
+        alert("Item added to the cart");
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+
   if (!medicine) {
     return <div>Loading...</div>;
   }
@@ -33,6 +46,15 @@ const MedicineDetails = () => {
       <p className="text-lg font-semibold">Price: ₹{medicine.price*8}</p>
       <p className="text-lg font-semibold">Rating: {medicine.rating}⭐ / 5⭐</p>
       <p className="text-lg font-semibold">Stock: {medicine.stock}</p>
+      <button
+    onClick={(e) => {
+      e.stopPropagation();
+      addToCart(id);
+    }}
+    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 ease-in-out shadow-md"
+  >
+    Add to cart
+  </button>
     </div>
   );
 };

@@ -14,7 +14,7 @@ export const addAmbulance= async(req,res)=>{
 export const getAmbulance = async(req,res)=>{
    try{
       const id=req.body.id;
-      console.log(id);
+      // console.log(id);
       if(id){
         const ambulance=await ambulanceModel.findOne({_id: id});
         res.status(200).json(ambulance);

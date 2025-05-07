@@ -145,14 +145,14 @@ const Navbar = ({ UserDetails }) => {
                   className="text-xl text-gray-800 cursor-pointer hover:text-white pr-4 inline"
                   size={40}
                 />
-                Order Details
+                My Cart
               </Link>
               <Link to="/wallet">
                 <FaWallet
                   className="text-xl text-gray-800 cursor-pointer hover:text-white pr-4 inline"
                   size={40}
                 />
-                My Wallet
+                Purchase Details
               </Link>
             </>
           ) : (
