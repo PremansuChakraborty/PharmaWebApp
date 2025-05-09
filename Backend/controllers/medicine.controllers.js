@@ -12,7 +12,7 @@ export const addMedicine= async(req,res)=>{
 export const getMedicine = async(req,res)=>{
      try{
         const id=req.body.id;
-        console.log(id);
+        // console.log(id);
         if(id){
           const medicine=await medicineModel.findOne({_id: id});
           res.status(200).json(medicine);

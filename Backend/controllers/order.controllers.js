@@ -1,113 +1,164 @@
-
 import mongoose from "mongoose";
 import orderModel from "../models/order.model.js";
 import userModel from "../models/user.model.js";
+import nodemailer from "nodemailer";
 
 export const getOrders = async (req, res) => {
-    try {
-      const { email } = req.body;
-  
-      const user = await userModel.findOne({ email }).populate({
-        path: 'orders',
-        populate: [
-          {
-            path: 'medicines.medicine_id',
-            model: 'medicineModel'
-          },
-          {
-            path: 'location',
-            model: 'addressModel'
-          }
-        ],
-        strictPopulate: false
-      });
-      console.log(user.orders);
-  
-      if (user) {
-        if (user.orders) res.status(200).send(user.orders);
-        else res.status(200).send([]);
-      } else {
-        return res.status(200).send('user not found');
-      }
-    } catch (err) {
-      res.status(400).send(err.message);
-    }
-  };
+  try {
+    const { email } = req.body;
 
-  export const getOrderById = async (req, res) => {
-    try {
-      console.log('hello')
-      const { id } = req.body; // ✅ get ID from URL params
-      // id=new mongoose.Types.ObjectId(id);
-      const order = await orderModel
-        .findById(id)
-        .populate({
-          path: 'medicines.medicine_id',
-          model: 'medicineModel'
-        })
-        .populate({
-          path: 'location',
-          model: 'addressModel'
-        });
-      console.log(order);
-      if (order) {
-        return res.status(200).json(order);
-      } else {
-        return res.status(404).send('Order not found');
-      }
-    } catch (err) {
-      res.status(500).send(err.message);
+    const user = await userModel.findOne({ email }).populate({
+      path: "orders",
+      populate: [
+        {
+          path: "medicines.medicine_id",
+          model: "medicineModel",
+        },
+        {
+          path: "location",
+          model: "addressModel",
+        },
+      ],
+      strictPopulate: false,
+    });
+    // console.log(user.orders);
+
+    if (user) {
+      if (user.orders) res.status(200).send(user.orders);
+      else res.status(200).send([]);
+    } else {
+      return res.status(200).send("user not found");
     }
-  };
-  
-  
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
+
+export const getOrderById = async (req, res) => {
+  try {
+    // console.log('hello')
+    const { id } = req.body; // ✅ get ID from URL params
+    // id=new mongoose.Types.ObjectId(id);
+    const order = await orderModel
+      .findById(id)
+      .populate({
+        path: "medicines.medicine_id",
+        model: "medicineModel",
+      })
+      .populate({
+        path: "location",
+        model: "addressModel",
+      });
+    // console.log(order);
+    if (order) {
+      return res.status(200).json(order);
+    } else {
+      return res.status(404).send("Order not found");
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
 
 export const addOrders = async (req, res) => {
-    try {
-      const { email , location, payment, status } = req.body;
-      const user = await userModel.findOne({ email }).populate({path: 'cart.medicine_id',strictPopulate: false});
+  try {
+    // console.log("entry");
+    const { email, location, payment, status } = req.body;
+    const user = await userModel.findOne({ email }).populate({
+      path: "cart.medicine_id",
+      strictPopulate: false,
+    });
 
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).send("User not found");
     }
-    const medicines=user.cart;
 
-    let totalAmount=0;
-    medicines.map((item)=>totalAmount+=item.medicine_id.price*item.count);
-    payment.amount=totalAmount;
-  
-      const newOrder = new orderModel({
-        medicines,
-        user:user._id,
-        location,
-        payment,
-        status,
-      });
-      await newOrder.save();
-  
-      // Correct way to fetch a single user document
-    //   const userID = new mongoose.Types.ObjectId(user);
-    //   const foundUser = await userModel.find(email);
-  
-    //   if (!foundUser) {
-    //     return res.status(404).json({ message: "User not found" });
-    //   }
-  
-      // Ensure orders is an array
-      if (!Array.isArray(user.orders)) {
-        user.orders = [];
-      }
-  
-      user.orders.push(newOrder._id);
-      user.cart = [];
-      await user.save();
-  
-      res.status(201).json({
-        message: "Order added and linked to user",
-        order: newOrder,
-      });
-    } catch (err) {
-      res.status(400).send(err.message);
-    }
-  };
-  
+    const medicines = user.cart;
+    let totalAmount = 0;
+    medicines.forEach(
+      (item) => (totalAmount += item.medicine_id.price * item.count)
+    );
+    payment.amount = totalAmount;
+
+    const newOrder = new orderModel({
+      medicines,
+      user: user._id,
+      location,
+      payment,
+      status,
+    });
+    await newOrder.save();
+
+    // console.log(email.toString());
+    // console.log("Email type:", typeof email, "Value:", email);
+
+    user.orders = user.orders || [];
+    user.orders.push(newOrder._id);
+    user.cart = [];
+    await user.save();
+
+    res.status(201).json({
+      message: "Order added and linked to user",
+      order: newOrder,
+    });
+    // console.log(newOrder);
+    // Prepare HTML Invoice Content
+    const invoiceHtml = `
+      <h2 style="color:#2c3e50;">Thank You for Your Order! 🛒</h2>
+
+<p>Dear Customer,</p>
+
+<p>We're excited to let you know that your order has been successfully placed. Below are the details of your order:</p>
+
+<hr />
+        <h2>Invoice</h2>
+        <p><strong>Order ID:</strong> ${newOrder._id}</p>
+        <p><strong>Status:</strong> ${newOrder.status}</p>
+        <p><strong>Payment Mode:</strong> ${newOrder.payment.mode}</p>
+        <p><strong>Amount:</strong> ₹${newOrder.payment.amount * 8}</p>
+        <p><strong>Payment Status:</strong> ${newOrder.payment.status}</p>
+        <p><strong>Order Date:</strong> ${new Date(
+          newOrder.createdAt
+        ).toLocaleDateString()}</p>
+        <p><strong>Expected Delivery:</strong> ${new Date(
+          new Date(newOrder.createdAt).getTime() + 4 * 86400000
+        ).toLocaleDateString()}</p>
+        
+        <h3>Medicines:</h3>
+        <ul>
+          ${newOrder.medicines
+            .map(
+              (item) =>
+                `<li>${item.medicine_id?.name || "Unknown"} × ${
+                  item.count
+                } = ₹${item.medicine_id?.price * item.count * 8}</li>`
+            )
+            .join("")}
+        </ul>
+       
+        <p>Visit our website to view or download your invoice</p>
+
+      `;
+
+    // Setup Nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "chakrabortypremansu21@gmail.com",
+        pass: "bgmfkgznokrzwblh", // App password
+      },
+    });
+
+    await transporter.sendMail({
+      from: '"Your Pharmacy" <chakrabortypremansu21@gmail.com>',
+      to: email, // send to user email
+      subject: "Your Pharmacy Invoice",
+      html: invoiceHtml,
+    });
+
+    console.log("Invoice email sent to", email);
+  } catch (err) {
+    console.error("Order Error:", err);
+    res.status(400).send(err.message);
+  }
+};
