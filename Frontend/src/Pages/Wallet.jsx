@@ -11,7 +11,7 @@ const Wallet = () => {
   const navigate=useNavigate();
   const fetchOrders = async () => {
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/order/getOrder', {
+      const res = await axios.post('/api/v1/order/getOrder', {
         email: UserDetails?.email,
       });
       if (Array.isArray(res.data)) {

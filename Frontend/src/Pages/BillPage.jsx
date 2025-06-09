@@ -8,7 +8,7 @@ const BillPage = () => {
   const printRef = useRef();
 
   useEffect(() => {
-    axios.post("http://localhost:8000/api/v1/order/getOrderById", { id: orderId }).then((res) => {
+    axios.post("/api/v1/order/getOrderById", { id: orderId }).then((res) => {
       console.log(res.data);
       setOrder(res.data);
     });

@@ -15,7 +15,7 @@ const navigate = useNavigate();
 
   const fetchAddress = async (email) => {
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/address/getAddresses", { email });
+      const res = await axios.post("/api/v1/address/getAddresses", { email });
       if (res?.data) {
         setArr(res.data);
       }

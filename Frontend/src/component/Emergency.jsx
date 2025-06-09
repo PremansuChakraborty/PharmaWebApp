@@ -14,7 +14,7 @@ const Emergency = () => {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/doctor/allDoctor"
+          "/api/v1/doctor/allDoctor"
         );
         const products = await response.json();
         setArray(products?.data); // Update state with the fetched products

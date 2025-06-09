@@ -186,7 +186,7 @@ const db = [
 
 
 db.map((payload,ind) =>
-    axios.post('http://localhost:8000/api/v1/ambulance/addAmbulance',{
+    axios.post('/api/v1/ambulance/addAmbulance',{
         location: payload.location,
         distance: payload.distance,
         contact_number:payload.contact,

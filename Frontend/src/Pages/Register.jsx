@@ -18,14 +18,14 @@ function Register() {
 
     if (name.length > 0 && password.length > 0) {
       try {
-        const response = await axios.post('http://localhost:8000/api/v1/user/signup', {
+        const response = await axios.post('/api/v1/user/signup', {
           name: name,
           email: email,
           password: password
         });
 
         console.log(response.data);
-        const response2 = await axios.post(`http://localhost:8000/api/v1/user/login`, {
+        const response2 = await axios.post(`/api/v1/user/login`, {
           email:email,
           password: password
         });
