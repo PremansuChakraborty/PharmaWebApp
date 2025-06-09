@@ -81,7 +81,7 @@ const AddDoctor = () => {
         onSubmit={handleSubmit}
         className="max-w-md mx-auto bg-white p-6 rounded shadow-md"
       >
-        <h2 className="text-2xl font-semibold mb-4">User Form</h2>
+        <h2 className="text-2xl font-semibold mb-4">Add Doctor</h2>
 
         <div className="mb-4">
           <label className="block mb-1">Name:</label>

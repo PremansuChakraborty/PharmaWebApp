@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
   ],
   profile: {
     type: String,
-    enum: ['user', 'doctor', 'nurse', 'ambulance'],
+    enum: ['user', 'doctor', 'nurse', 'ambulance','admin'],
     default: "user"
   }
 }, { timestamps: true });

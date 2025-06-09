@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../../Context/User/UserContext';
 export default function AddInDB() {
   const [showCard, setShowCard] = useState(false);
   const navigate=useNavigate()
+  const {UserDetails}=useContext(UserContext)
 
   const toggleCard = () => {
     setShowCard(!showCard);
@@ -12,6 +14,7 @@ export default function AddInDB() {
   return (
     <>
       {/* Floating Button */}
+      
       <div className="fixed bottom-24 right-6">
         <button
           className="bg-green-500 hover:bg-green-700 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
@@ -24,24 +27,17 @@ export default function AddInDB() {
 
       {/* Options Card */}
       {showCard && (
-        <div className="fixed bottom-40 right-6 w-36 shadow-lg rounded-lg p-2 z-50 bg-green-500">
-          <div className='bg-white'>
-            <h6 className="text-lg font-bold mb-3 ">Options</h6>
-            <hr className="bg-green-500 h-2" />
-            <p className="text-sm cursor-pointer mb-2 hover:text-green-500"
-            onClick={()=>navigate('/add_new_doctor')}>
-              Doctor
-            </p>
-            <p className="text-sm cursor-pointer mb-2 hover:text-green-500"
-             onClick={()=>navigate('/add_new_medicine')}>
-              Medicine
-            </p>
-            <p className="text-sm cursor-pointer mb-2 hover:text-green-500"
-            onClick={()=>navigate('/add_new_ambulance')}>
-              Ambulance
-            </p>
-          </div>
-        </div>
+         <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+      <div className="bg-white shadow-xl rounded-2xl p-10 text-center max-w-md w-full">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Request Admin Assistance</h1>
+        <p className="text-gray-600 mb-6">
+          To add a new <strong>Doctor</strong>, <strong>Ambulance</strong>, or <strong>Medicine</strong>, please contact the admin via email.
+        </p>
+        <p className="text-lg font-medium text-green-600">
+          📧 Email: <a href="mailto:xyz@gmail.com" className="underline">yourpharmnew@gmail.com</a>
+        </p>
+      </div>
+    </div>
       )}
     </>
   );

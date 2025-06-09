@@ -25,7 +25,7 @@ const Login = () => {
 
         if (response.status === 200) {
           console.log(response.data.message);
-          setUserDetails({ name: response.data.data.user.name, email: response.data.data.user.email });
+          setUserDetails({ name: response.data.data.user.name, email: response.data.data.user.email, profile:  response.data.data.user.profile});
           localStorage.setItem("auth",JSON.stringify({name:response.data.data.user.name,email:response.data.data.user.email}))
 
           navigate('/');
