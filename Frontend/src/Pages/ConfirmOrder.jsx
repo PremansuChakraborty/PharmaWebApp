@@ -13,7 +13,7 @@ const ConfirmOrder = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post('/api/v1/order/addOrder', {
-        email: UserDetails.email,
+        // email: UserDetails.email,
         location: addressId,
         payment: {
           mode: paymentMode,
@@ -21,7 +21,7 @@ const ConfirmOrder = () => {
           status: 'PENDING',
         },
         status: 'PLACED',
-      });
+      },{withCredentials:true});
 
       if (res.data) {
         alert('Order placed successfully!');

@@ -31,9 +31,9 @@ function Register() {
         });
 
         if (response2.status === 200) {
-          console.log("xxx",response2.data.data.user.name,response2.data.data.user.email);
-          setUserDetails({ name: response2.data.data.user.name, email: response2.data.data.user.email });
-          localStorage.setItem("auth",JSON.stringify({name:response2.data.data.user.name,email:response2.data.data.user.email}))
+         console.log(response.data.message);
+          setUserDetails(response.data.data.user);
+          localStorage.setItem("auth",JSON.stringify(response.data.data.user))
 
           navigate('/');
         }// Redirect to login page after successful registration

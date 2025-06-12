@@ -21,12 +21,12 @@ const Login = () => {
         const response = await axios.post(`${apiUrl}/login`, {
           email:email,
           password: password
-        });
-
-        if (response.status === 200) {
-          console.log(response.data.message);
-          setUserDetails({ name: response.data.data.user.name, email: response.data.data.user.email, profile:  response.data.data.user.profile});
-          localStorage.setItem("auth",JSON.stringify({name:response.data.data.user.name,email:response.data.data.user.email}))
+        },{withCredentials:true});
+        if (response?.status === 200) {
+          console.log(response.data.data.message);
+          setUserDetails(response.data.data.user);
+      
+          // localStorage.setItem("auth",JSON.stringify(response.data.data.user))
 
           navigate('/');
         }
@@ -43,7 +43,7 @@ const Login = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
         <h2 className="text-3xl font-semibold text-center mb-6">Login</h2>
         
-        {error && <p className="text-white text-center mb-4">{error}</p>}
+        {error && <p className="text-black text-center mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

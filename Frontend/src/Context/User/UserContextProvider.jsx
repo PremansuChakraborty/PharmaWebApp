@@ -1,20 +1,21 @@
 import UserContext from "./UserContext";
 import React, { useState, useEffect } from "react";
+import axios from 'axios'
 
 const UserContextProvider = ({ children }) => {
-  const [UserDetails, setUserDetails] = useState(() => {
-    const storedUser = localStorage.getItem("auth");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [UserDetails, setUserDetails] = useState(null)
 
   // Automatically persist UserDetails to localStorage
   useEffect(() => {
-    if (UserDetails) {
-      localStorage.setItem("auth", JSON.stringify(UserDetails));
-    } else {
-      localStorage.removeItem("auth");
+   (async function fetchdata(){
+    try{
+      const res=await axios.get('/api/v1/user/checkAuth',{withCredentials:true})
+      if(res) setUserDetails(res.data.data.user);
+    }catch(err){
+      console.log(err);
     }
-  }, [UserDetails]);
+   })()
+  }, []);
 
   return (
     <UserContext.Provider value={{ UserDetails, setUserDetails }}>

@@ -30,6 +30,10 @@ export default function ScrollCategory() {
       window.open('https://medical-recommendation-system-kqw3.onrender.com/predict', '_blank');
       setValue('1'); // Optional: revert to first tab after redirection
     }
+    else if (value === '9') {
+      window.open(UserDetails.doctorId.doctorJoiningLink, '_blank');
+      setValue('1'); // Optional: revert to first tab after redirection
+    }
   }, [value]);
 
   return (
@@ -45,6 +49,7 @@ export default function ScrollCategory() {
             {UserDetails?.profile === 'admin' && <Tab label="Add Doctor" value="6" />}
             {UserDetails?.profile === 'admin' && <Tab label="Add Medicine" value="7" />}
             {UserDetails?.profile === 'admin' && <Tab label="Add Ambulance" value="8" />}
+            {UserDetails?.profile === 'doctor' && <Tab label="Go Live" value="9" />}
           </TabList>
         </Box>
 

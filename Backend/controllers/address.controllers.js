@@ -3,7 +3,7 @@ import addressModel from "../models/address.model.js";
 
 export const getAddress = async(req,res)=>{
     try {
-        const { email} = req.body;
+        const { email} = req.user.user;
         const user= await userModel.findOne({email}).populate({ path: 'address_ids', strictPopulate: false });
         // console.log(user);
         if(user.address_ids) res.status(200).send(user.address_ids);
@@ -15,10 +15,10 @@ export const getAddress = async(req,res)=>{
 
 export const addAddress = async (req, res) => {
   try {
-    const { email, street, city, landmark, zip, state } = req.body;
+    const { street, city, landmark, zip, state } = req.body;
 
     // Step 1: Find the user by email
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email: req.user.user.email });
     if (!user) {
       return res.status(404).send("User not found");
     }

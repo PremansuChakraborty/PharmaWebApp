@@ -1,5 +1,7 @@
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import userModel from "../models/user.model.js";
+import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken'
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -29,14 +31,23 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
+    let user = await userModel.findOne({ email }).populate('doctorId');
+
+    // console.log(user);
 
     if (user) {
       if (comparePassword(password, user.password)) {
+        const token=jwt.sign({user},process.env.SECRET_KEY)
+        res.cookie('auth',token,{
+          maxAge:7*24*60*60*1000,
+          sameSite:'Lax',
+          secure:false,
+          httpOnly:true
+        })
         return res.status(200).json({
           data: {
             message: "Login successful",
-            user: { email: user.email, name: user.name, profile: user.profile }, // Add additional user details here if needed
+            user: user,
           },
           success: true,
         });
@@ -51,13 +62,35 @@ export const login = async (req, res) => {
   }
 };
 
+export const checkauth=(req,res)=>{
+    // console.log(req.user)
+    return res.status(200).json({data: {
+            message: "Valid Token Login successful",
+            user: req.user.user,
+          }});
+}
 
-import mongoose from 'mongoose';
+export const logout=(req,res)=>{
+  res.clearCookie('auth',{
+    httpOnly:true,
+    secure:false,
+    sameSite:'Lax'
+  })
+  res.status(200).send('Logout Successful')
+}
+
+
+
+
+
+
+
+
 
 export const addToCart = async (req, res) => {
   try {
-    const { email, id } = req.body;
-    const user = await userModel.findOne({ email });
+    const { id } = req.body;
+    const user = await userModel.findOne({email: req.user.user.email });
 
     if (!user) return res.status(404).send('User not found');
 
@@ -91,7 +124,7 @@ export const addToCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.user.user;
 
     const user = await userModel.findOne({ email }).populate({path: 'cart.medicine_id',strictPopulate: false});
 
@@ -109,8 +142,8 @@ export const getCart = async (req, res) => {
 
 export const reduceCount=async(req,res)=>{
   try {
-    const { email, id } = req.body;
-    const user = await userModel.findOne({ email });
+    const { id } = req.body;
+    const user = await userModel.findOne({ email:req.user.user.email });
 
     if (!user) return res.status(404).send('User not found');
 
@@ -141,8 +174,8 @@ export const reduceCount=async(req,res)=>{
 
 export const deleteProduct=async(req,res)=>{
   try {
-    const { email, id } = req.body;
-    const user = await userModel.findOne({ email });
+    const { id } = req.body;
+    const user = await userModel.findOne({ email:req.user.user.email });
 
     if (!user) return res.status(404).send('User not found');
 

@@ -18,9 +18,8 @@ const AddAddressForm = ({ email, onClose, onAddressAdded }) => {
     e.preventDefault();
     try {
       await axios.post("/api/v1/address/addAddress", {
-        email,
         ...form
-      });
+      },{withCredentials:true});
       onAddressAdded(); // To refresh the address list
       onClose(); // Close form
     } catch (err) {

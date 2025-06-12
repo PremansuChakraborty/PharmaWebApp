@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
 
 export const getOrders = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.user.user;
 
     const user = await userModel.findOne({ email }).populate({
       path: "orders",
@@ -34,6 +34,12 @@ export const getOrders = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
 export const getOrderById = async (req, res) => {
   try {
     // console.log('hello')
@@ -60,11 +66,16 @@ export const getOrderById = async (req, res) => {
   }
 };
 
+
+
+
+
+
 export const addOrders = async (req, res) => {
   try {
     // console.log("entry");
-    const { email, location, payment, status } = req.body;
-    const user = await userModel.findOne({ email }).populate({
+    const {  location, payment, status } = req.body;
+    const user = await userModel.findOne({ email: req.user.user.email }).populate({
       path: "cart.medicine_id",
       strictPopulate: false,
     });
@@ -151,12 +162,12 @@ export const addOrders = async (req, res) => {
 
     await transporter.sendMail({
       from: '"Your Pharmacy" <chakrabortypremansu21@gmail.com>',
-      to: email, // send to user email
+      to: req.user.user.email, // send to user email
       subject: "Your Pharmacy Invoice",
       html: invoiceHtml,
     });
 
-    console.log("Invoice email sent to", email);
+    console.log("Invoice email sent to", req.user.user.email);
   } catch (err) {
     console.error("Order Error:", err);
     res.status(400).send(err.message);

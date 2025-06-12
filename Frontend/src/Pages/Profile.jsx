@@ -2,13 +2,19 @@ import React, { useContext } from 'react'
 import UserContext from '../Context/User/UserContext'
 import { useNavigate } from 'react-router-dom'
 import Loader from '../component/Loader'
+import axios from 'axios'
 const Profile = () => {
   const {UserDetails,setUserDetails}=useContext(UserContext)
   const navigate=useNavigate();
-  const handleClick=()=>{
-      localStorage.removeItem("auth");
-      setUserDetails(null);
-      navigate('/');
+  const handleClick=async()=>{
+      // localStorage.removeItem("auth");
+      try{
+        await axios.get('/api/v1/user/logout',{withCredentials:true})
+        setUserDetails(null);
+        navigate('/');
+      }catch(err){
+        console.log(err)
+      }
   }
   return (
     <div>

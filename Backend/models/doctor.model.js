@@ -30,9 +30,15 @@ const doctorSchema= new mongoose.Schema({
         },
         description:{
             type: String,
-        }
+        },
+        doctorJoiningLink:{
+            type: String,
+        },
+        userJoiningLink:{
+            type: String,
+        },
 })
 
-const doctorModel=new mongoose.model('doctorModels', doctorSchema)
+const doctorModel=new mongoose.model('doctorModel', doctorSchema)
 
 export default doctorModel

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Loader from '../component/Loader';
 import UserContext from '../Context/User/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { faTruckMedical } from '@fortawesome/free-solid-svg-icons';
 
 const Wallet = () => {
   const { UserDetails } = useContext(UserContext);
@@ -11,9 +12,7 @@ const Wallet = () => {
   const navigate=useNavigate();
   const fetchOrders = async () => {
     try {
-      const res = await axios.post('/api/v1/order/getOrder', {
-        email: UserDetails?.email,
-      });
+      const res = await axios.get('/api/v1/order/getOrder',{withCredentials:true});
       if (Array.isArray(res.data)) {
         setOrders(res.data);
       }

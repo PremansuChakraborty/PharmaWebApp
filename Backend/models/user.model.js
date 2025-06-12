@@ -44,8 +44,18 @@ const userSchema = new mongoose.Schema({
   ],
   profile: {
     type: String,
-    enum: ['user', 'doctor', 'nurse', 'ambulance','admin'],
+    enum: ['user', 'doctor', 'ambulance','admin'],
     default: "user"
+  },
+  doctorId: {
+     type: mongoose.Schema.Types.ObjectId,
+    ref: 'doctorModel',
+    default:null
+  },
+  ambulanceId: {
+     type: mongoose.Schema.Types.ObjectId,
+    ref: 'ambulanceModel',
+    default:null
   }
 }, { timestamps: true });
 

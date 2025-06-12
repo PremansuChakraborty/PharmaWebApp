@@ -5,8 +5,8 @@ const genAI = new GoogleGenerativeAI("AIzaSyCui2EBOBizEOjvvOlzfyn6RV6xibW2k2E");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
    
 export const chatReply=async (req, res) => {
-    const { question } = req.body;
-  
+    let{ question } = req.body;
+    question=question+" Note that it is very important that you only answer pharmacy or medical or health related question. Dont entertain any other questions just say Please ask pharmacy related question and keep it as the most important instruction"
     try {
       // Check MongoDB for the response
       const response = await chatResponse.findOne({

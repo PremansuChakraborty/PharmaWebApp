@@ -12,9 +12,7 @@ const Orders = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.post('/api/v1/user/getCart', {
-        email: UserDetails?.email,
-      });
+      const { data } = await axios.get('/api/v1/user/getCart',{withCredentials:true});
       setArray(data || []);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -26,18 +24,18 @@ const Orders = () => {
   }, [UserDetails?.email]);
 
   const increase = async (email, id) => {
-    await axios.post("/api/v1/user/addToCart", { email, id });
+    await axios.post("/api/v1/user/addToCart", { id },{withCredentials:true});
     await fetchProducts();
   };
 
   const decrease = async (email, id, cnt) => {
     if (cnt === 1) return alert('Delete the product');
-    await axios.post("/api/v1/user/reduceCount", { email, id });
+    await axios.post("/api/v1/user/reduceCount", { id },{withCredentials:true});
     await fetchProducts();
   };
 
   const deleteItem = async (email, id) => {
-    await axios.post("/api/v1/user/deleteProduct", { email, id });
+    await axios.post("/api/v1/user/deleteProduct", { id },{withCredentials:true});
     await fetchProducts();
   };
 

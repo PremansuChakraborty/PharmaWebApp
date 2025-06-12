@@ -30,9 +30,8 @@ const Medicines = () => {
   const addToCart = async (_id) => {
     try {
       await axios.post('/api/v1/user/addToCart', {
-        email: UserDetails.email,
         id: _id,
-      });
+      },{withCredentials:true});
       alert("Item added to the cart");
     } catch (err) {
       console.log(err);
