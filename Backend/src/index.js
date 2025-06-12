@@ -13,10 +13,10 @@ import path from 'path'
 import {httpServer,app} from '../lib/socket.js';
 import cookieParser from 'cookie-parser';
 configDotenv()
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials:true
-}));
+// app.use(cors({
+//   origin: "http://localhost:5173",
+//   credentials:true
+// }));
 app.use(cookieParser())
  app.use(express.static(path.join(path.resolve(),"../Frontend/dist")))
  app.use(express.json());
