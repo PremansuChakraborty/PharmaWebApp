@@ -1,35 +1,41 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import Loader from "./Loader";
 import { useNavigate } from 'react-router-dom';
 import UserContext from "../Context/User/UserContext";
 function Emergency() {
-  const [doctors, setDoctors] = useState([]);
-  const navigate= useNavigate()
-  const {UserDetails } = useContext(UserContext);
-  const handleClick=(id)=>{
-    //  console.log(id);
-     navigate(`/doctor_details/${id}`)
-  }
-  const socket = useMemo(() => {
-    return io("",{
-     query:{
-      user:JSON.stringify(UserDetails)
-     }
-    });
-  }, []);
+    const [doctors, setDoctors] = useState([]);
+  const navigate = useNavigate();
+  const { UserDetails } = useContext(UserContext);
+  const socketRef = useRef();
+
+//   useEffect(() => {
+//   console.log("Connected doctors updated:", doctors);
+// }, [doctors]);
+
 
   useEffect(() => {
-    socket.on("new-user", (users) =>{
-      setDoctors(users)
-      console.log(users[0].doctorId)
-    } 
-    );
-      
-     return () => {
-      socket.off("new-user");
+    // Only create socket once
+    socketRef.current = io("http://localhost:8000", {  // Use your backend URL here
+      query: {
+        user: JSON.stringify(UserDetails),
+      },
+    });
+   
+    socketRef.current.on("new-user", (users) => {
+      setDoctors(users);
+      // console.log("Connected doctors:", doctors);
+    });
+
+    // Clean up socket on component unmount
+    return () => {
+      socketRef.current.disconnect();
     };
-  }, [socket]);
+  }, [UserDetails]);
+
+  const handleClick = (id) => {
+    navigate(`/doctor_details/${id}`);
+  };
 
   return (
   	<>
