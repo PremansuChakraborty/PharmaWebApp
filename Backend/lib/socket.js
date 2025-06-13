@@ -10,23 +10,27 @@ const io = new Server(httpServer, {
 });
 let doctorCollection=[];
 io.on("connection", (socket) => {
-    const user=JSON.parse(socket.handshake.query.user);
-   console.log('user: ',user)
-   
-   if(user?.profile=='doctor') doctorCollection.push({...user, socketId:socket.id})
-    console.log('doctorCollection: ', doctorCollection)
+  let user = {};
+  try {
+    user = JSON.parse(socket.handshake.query.user);
+  } catch (error) {
+    console.error("❌ Invalid JSON received:", socket.handshake.query.user);
+    return; // prevent server crash
+  }
 
-    io.emit('new-user',doctorCollection)
+  console.log('✅ Parsed user:', user);
 
-// console.log(doctorCollection);
-socket.on("disconnect", () => {
-    // console.log("bye")
-    doctorCollection=doctorCollection.filter((doctor)=>{
-        return doctor.socketId!=socket.id;
-    })
-    // console.log(doctorCollection);
-    io.emit('new-user',doctorCollection)
-  });
+  if (user?.profile === 'doctor') {
+    doctorCollection.push({ ...user, socketId: socket.id });
+  }
+
+  io.emit('new-user', doctorCollection);
+
+  socket.on("disconnect", () => {
+    doctorCollection = doctorCollection.filter((doc) => doc.socketId !== socket.id);
+    io.emit('new-user', doctorCollection);
+  });
 });
+
 
 export {httpServer,app};

@@ -18,7 +18,15 @@ function Emergency() {
     // Only create socket once
     socketRef.current = io('https://pharma-application-main.onrender.com', {  // Use your backend URL here
       query: {
-        user: JSON.stringify(UserDetails),
+        user: JSON.stringify({
+  name: UserDetails?.name,
+  _id: UserDetails?._id,
+  profile: UserDetails?.profile,
+  doctorId: UserDetails?.doctorId,
+  specialization: UserDetails?.specialization,
+  userJoiningLink: UserDetails?.userJoiningLink,
+  imageLink: UserDetails?.imageLink
+})
       },
     });
    
