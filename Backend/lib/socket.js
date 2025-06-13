@@ -11,12 +11,12 @@ const io = new Server(httpServer, {
 let doctorCollection=[];
 io.on("connection", (socket) => {
     const user=JSON.parse(socket.handshake.query.user);
-   console.log(user)
+  //  console.log(user)
     
     if(user?.profile=='doctor') doctorCollection.push({...user, socketId:socket.id})
     io.emit('new-user',doctorCollection)
 
-console.log(doctorCollection);
+// console.log(doctorCollection);
 socket.on("disconnect", () => {
     // console.log("bye")
     doctorCollection=doctorCollection.filter((doctor)=>{
