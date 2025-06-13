@@ -16,7 +16,7 @@ function Emergency() {
 
   useEffect(() => {
     // Only create socket once
-    socketRef.current = io("http://localhost:8000", {  // Use your backend URL here
+    socketRef.current = io("", {  // Use your backend URL here
       query: {
         user: JSON.stringify(UserDetails),
       },
