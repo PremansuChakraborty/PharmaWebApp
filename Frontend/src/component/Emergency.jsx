@@ -16,7 +16,7 @@ function Emergency() {
 
   useEffect(() => {
     // Only create socket once
-    socketRef.current = io("", {  // Use your backend URL here
+    socketRef.current = io('https://pharma-application-main.onrender.com', {  // Use your backend URL here
       query: {
         user: JSON.stringify(UserDetails),
       },
