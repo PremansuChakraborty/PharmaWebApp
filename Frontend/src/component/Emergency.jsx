@@ -40,9 +40,7 @@ function Emergency() {
           <Loader />
         ) : (
           <>
-            {doctors
-              .filter((doctor, index) => index % 5 === 0) // Filter doctors by index divisible by 5
-              .map((doctor) => (
+            {doctors.map((doctor) => (
                 <div
                   key={doctor._id}
                   className="w-64 p-4 bg-white rounded-lg shadow-lg"
