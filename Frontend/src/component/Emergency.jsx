@@ -24,7 +24,7 @@ function Emergency() {
    
     socketRef.current.on("new-user", (users) => {
       setDoctors(users);
-      // console.log("Connected doctors:", doctors);
+      console.log("Connected doctors:", users);
     });
 
     // Clean up socket on component unmount
