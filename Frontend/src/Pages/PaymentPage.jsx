@@ -14,13 +14,13 @@ const navigate=useNavigate();
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await axios.post('/api/v1/order/getOrderById', {
+        const res = await axios.post('http://localhost:8080/api/v1/order/getOrderById', {
           id: orderID
         });
         setOrder(res.data);
         console.log(res.data)
         if (res.data && res.data.payment && res.data.payment.amount) {
-          setAmount(res.data.payment.amount*80);
+          setAmount(res.data.payment.amount*8);
         }
       } catch (err) {
         console.error("Error fetching order:", err);
@@ -36,7 +36,7 @@ const navigate=useNavigate();
     const amt = Number(amount);
 
     try {
-      const response = await axios.post("/api/v1/payment/razorpay", {
+      const response = await axios.post("http://localhost:8080/api/v1/payment/razorpay", {
         amount: amt
       }, {
         headers: {

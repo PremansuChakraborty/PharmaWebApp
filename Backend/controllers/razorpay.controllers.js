@@ -20,7 +20,7 @@ export const razorfunction=async (req, res) => {
   }
 
   const options = {
-    amount: amount*100, // Amount in paise
+    amount: amount*1000, // Amount in paise
     currency: 'INR',
     receipt: 'receipt_' + Math.floor(Math.random() * 10000)
   };

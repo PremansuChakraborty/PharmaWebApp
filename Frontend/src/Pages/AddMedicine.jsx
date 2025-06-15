@@ -43,7 +43,7 @@ const AddMedicine = () => {
 
     try {
       const response = await axios.post(
-        "/api/v1/medicine/addMedicine",
+        "http://localhost:8080/api/v1/medicine/addMedicine",
         formData
       );
       console.log("Response:", response);
