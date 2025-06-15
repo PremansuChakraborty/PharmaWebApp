@@ -13,7 +13,7 @@ const ConfirmOrder = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        'http://localhost:8080/api/v1/order/addOrder',
+        '/api/v1/order/addOrder',
         {
           location: addressId,
           payment: {

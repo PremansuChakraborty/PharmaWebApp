@@ -10,7 +10,7 @@ const AmbulanceDetails = () => {
       try {
         console.log(id)
         const res = await axios.post(
-          "http://localhost:8080/api/v1/ambulance/getAmbulance",
+          "/api/v1/ambulance/getAmbulance",
           { id: id }
         );
         console.log(res);

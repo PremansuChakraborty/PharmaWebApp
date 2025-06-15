@@ -14,7 +14,7 @@ const navigate=useNavigate();
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await axios.post('http://localhost:8080/api/v1/order/getOrderById', {
+        const res = await axios.post('/api/v1/order/getOrderById', {
           id: orderID
         });
         setOrder(res.data);
@@ -36,7 +36,7 @@ const navigate=useNavigate();
     const amt = Number(amount);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/payment/razorpay", {
+      const response = await axios.post("/api/v1/payment/razorpay", {
         amount: amt
       }, {
         headers: {
