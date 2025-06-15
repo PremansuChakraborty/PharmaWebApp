@@ -173,3 +173,41 @@ export const addOrders = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+
+
+
+
+
+
+// export const updateOrderDetails = async (req, res) => {
+//   try {
+//     const { id } = req.body;
+
+//     if (!id) {
+//       return res.status(400).json({ message: 'Order ID is required' });
+//     }
+
+//     const updateData = req.body.updateData;
+
+//     if (!updateData || typeof updateData !== 'object') {
+//       return res.status(400).json({ message: 'Update data is invalid or missing' });
+//     }
+
+//     const updatedOrder = await Order.findByIdAndUpdate(id, updateData, {
+//       new: true,
+//       runValidators: true,
+//     });
+
+//     if (!updatedOrder) {
+//       return res.status(404).json({ message: 'Order not found' });
+//     }
+
+//     res.status(200).json({
+//       message: 'Order updated successfully',
+//       updatedOrder,
+//     });
+//   } catch (error) {
+//     console.error('Error updating order:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// };

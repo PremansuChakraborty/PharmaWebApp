@@ -6,6 +6,7 @@ import { tokenVerification } from '../middleware/user.middleware.js';
 const router=Router();
  router.get('/getOrder',tokenVerification,getOrders)
  router.post('/getOrderById',getOrderById)
+//  router.post('/updateOrderById',getOrderById)
  router.post('/addOrder',tokenVerification,addOrders)
 
  export default router

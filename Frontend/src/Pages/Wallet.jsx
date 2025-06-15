@@ -12,7 +12,7 @@ const Wallet = () => {
   const navigate=useNavigate();
   const fetchOrders = async () => {
     try {
-      const res = await axios.get('/api/v1/order/getOrder',{withCredentials:true});
+      const res = await axios.get('http://localhost:8080/api/v1/order/getOrder',{withCredentials:true});
       if (Array.isArray(res.data)) {
         setOrders(res.data);
       }

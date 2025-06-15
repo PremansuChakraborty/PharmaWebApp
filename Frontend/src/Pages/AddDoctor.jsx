@@ -45,7 +45,7 @@ const AddDoctor = () => {
 
     try {
       const response = await axios.post(
-        "/api/v1/doctor/addDoctor",
+        "http://localhost:8080/api/v1/doctor/addDoctor",
         formData
       );
       console.log("Response:", response);

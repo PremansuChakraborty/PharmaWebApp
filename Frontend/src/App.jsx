@@ -26,6 +26,7 @@ import Address from './Pages/Address';
 import UserContextProvider from './Context/User/UserContextProvider';
 import ConfirmOrder from './Pages/ConfirmOrder';
 import BillPage from './Pages/BillPage';
+import PaymentPage from './Pages/PaymentPage';
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
           <Route path="/confirm_order/:addressId" element={<ConfirmOrder/>} />
 
           <Route path="/bill_page/:orderId" element={<BillPage/>} />
+          <Route path="/razorpay" element={<PaymentPage/>} />
         </Routes>
 
         <Footer />

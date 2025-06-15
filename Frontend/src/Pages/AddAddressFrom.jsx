@@ -17,7 +17,7 @@ const AddAddressForm = ({ email, onClose, onAddressAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/v1/address/addAddress", {
+      await axios.post("http://localhost:8080/api/v1/address/addAddress", {
         ...form
       },{withCredentials:true});
       onAddressAdded(); // To refresh the address list

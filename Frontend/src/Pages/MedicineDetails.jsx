@@ -11,7 +11,7 @@ const MedicineDetails = () => {
   useEffect(() => {
     const fetchDetails = async (id) => {
       try {
-        const res = await axios.post('/api/v1/medicine/getMedicine', { id: id });
+        const res = await axios.post('http://localhost:8080/api/v1/medicine/getMedicine', { id: id });
         setMedicine(res.data);
       } catch (error) {
         console.error('Error fetching medicine details:', error);
@@ -26,7 +26,7 @@ const MedicineDetails = () => {
   const addToCart=async(_id)=>{
       try{
         console.log(UserDetails.email+" "+_id);
-        await axios.post('/api/v1/user/addToCart',{email: UserDetails.email,id:_id});
+        await axios.post('http://localhost:8080/api/v1/user/addToCart',{email: UserDetails.email,id:_id});
         alert("Item added to the cart");
       }
       catch(err){

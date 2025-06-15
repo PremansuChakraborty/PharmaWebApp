@@ -30,6 +30,10 @@ export default function ScrollCategory() {
       window.open('https://medical-recommendation-system-kqw3.onrender.com/predict', '_blank');
       setValue('1'); // Optional: revert to first tab after redirection
     }
+    if (value === '10') {
+      window.open('https://tracker-iqp8.onrender.com/', '_blank');
+      setValue('1'); // Optional: revert to first tab after redirection
+    }
     else if (value === '9') {
       window.open(UserDetails.doctorId.doctorJoiningLink, '_blank');
       setValue('1'); // Optional: revert to first tab after redirection
@@ -39,17 +43,23 @@ export default function ScrollCategory() {
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className='flex justify-center'>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+    <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="overflow-x-auto whitespace-nowrap">
+  <TabList
+    onChange={handleChange}
+    aria-label="lab API tabs example"
+    className="flex flex-nowrap justify-start md:justify-center min-w-max"
+  >
+
             <Tab label="Medicines" value="1" />
             <Tab label="Doctors" value="2" />
             <Tab label="Emergency" value="3" />
-            <Tab label="Ambulance" value="4" />
+            <Tab label="Live Ambulance" value="10" />
             <Tab label="Medical AI Recommendation System" value="5" />
             {UserDetails?.profile === 'admin' && <Tab label="Add Doctor" value="6" />}
             {UserDetails?.profile === 'admin' && <Tab label="Add Medicine" value="7" />}
             {UserDetails?.profile === 'admin' && <Tab label="Add Ambulance" value="8" />}
             {UserDetails?.profile === 'doctor' && <Tab label="Go Live" value="9" />}
+            <Tab label="Ambulance" value="4" />
           </TabList>
         </Box>
 

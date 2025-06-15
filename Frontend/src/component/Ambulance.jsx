@@ -13,7 +13,7 @@ const Ambulance= () => {
   useEffect(() => {
     async function fetchitems() {
       try {
-        const response = await fetch('/api/v1/ambulance/allAmbulance');
+        const response = await fetch('http://localhost:8080/api/v1/ambulance/allAmbulance');
         const items = await response.json();
         setArray(items?.data); // Update state with the fetched items
       } catch (error) {

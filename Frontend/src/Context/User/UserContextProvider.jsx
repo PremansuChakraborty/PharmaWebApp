@@ -9,7 +9,7 @@ const UserContextProvider = ({ children }) => {
   useEffect(() => {
    (async function fetchdata(){
     try{
-      const res=await axios.get('/api/v1/user/checkAuth',{withCredentials:true})
+      const res=await axios.get('http://localhost:8080/api/v1/user/checkAuth',{withCredentials:true})
       if(res) setUserDetails(res.data.data.user);
     }catch(err){
       console.log(err);

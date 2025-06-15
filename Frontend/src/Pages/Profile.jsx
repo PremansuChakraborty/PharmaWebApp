@@ -9,7 +9,7 @@ const Profile = () => {
   const handleClick=async()=>{
       // localStorage.removeItem("auth");
       try{
-        await axios.get('/api/v1/user/logout',{withCredentials:true})
+        await axios.get('http://localhost:8080/api/v1/user/logout',{withCredentials:true})
         setUserDetails(null);
         navigate('/');
       }catch(err){
