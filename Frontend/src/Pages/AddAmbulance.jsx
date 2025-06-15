@@ -40,7 +40,7 @@ const AddAmbulance = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/ambulance/addAmbulance",
+        "/api/v1/ambulance/addAmbulance",
         formData
       );
       console.log("Response:", response);

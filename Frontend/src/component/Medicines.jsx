@@ -16,7 +16,7 @@ const Medicines = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('http://localhost:8080/api/v1/medicine/allMedicine');
+        const response = await fetch('/api/v1/medicine/allMedicine');
         const products = await response.json();
         setArray(products?.data);
       } catch (error) {
@@ -29,7 +29,7 @@ const Medicines = () => {
 
   const addToCart = async (_id) => {
     try {
-      await axios.post('http://localhost:8080/api/v1/user/addToCart', {
+      await axios.post('/api/v1/user/addToCart', {
         id: _id,
       },{withCredentials:true});
       alert("Item added to the cart");

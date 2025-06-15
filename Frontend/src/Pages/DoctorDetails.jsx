@@ -9,7 +9,7 @@ const Details = () => {
   useEffect(() => {
     const fetchDetails = async (id) => {
       try {
-        const res = await axios.post('http://localhost:8080/api/v1/doctor/getDoctor', { id: id });
+        const res = await axios.post('/api/v1/doctor/getDoctor', { id: id });
         setDetails(res.data);
       } catch (error) {
         console.error('Error fetching details:', error);
